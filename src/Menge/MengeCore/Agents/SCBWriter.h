@@ -196,6 +196,12 @@ class SCBWriter {
    @brief    Writes the header appropriate to major version 2 formats.
    */
   void writeHeader2_0();
+
+  /*!
+   * @brief     Writes the header appropriate to python friendly character based format
+   */
+   void writeHeader3_0();
+
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -326,6 +332,25 @@ class SCBFrameWriter2_4 : public SCBFrameWriter {
  public:
   virtual void writeFrame(std::ofstream& file, SimulatorInterface* sim, BFSM::FSM* fsm);
 };
+
+/////////////////////////////////////////////////////////////////////
+
+/*!
+ @brief    Writer for version 3.0
+
+ The data for an agent consists of:
+ x-pos
+ y-pos
+
+ Frame consists of vector position and time step
+
+ */
+class SCBFrameWriter3_0 : public SCBFrameWriter {
+ public:
+  virtual void writeFrame(std::ofstream& file, SimulatorInterface* sim, BFSM::FSM* fsm);
+};
+
+
 
 }  // namespace Agents
 }  // namespace Menge

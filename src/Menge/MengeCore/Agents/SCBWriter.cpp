@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ï¿½ and trademark ï¿½ 2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -41,6 +41,8 @@ Any questions or comments should be sent to the authors {menge,geom}@cs.unc.edu
 #include "MengeCore/Agents/SimulatorInterface.h"
 #include "MengeCore/Core.h"
 
+#include <string>
+
 namespace Menge {
 
 namespace Agents {
@@ -58,6 +60,7 @@ SCBWriter::SCBWriter(const std::string& pathName, const std::string& version,
   }
   logger << Logger::INFO_MSG << "SCBWRITER: version: " << _version[0] << ".";
   logger << _version[1] << "\n";
+  //TODO change mode for version 3.0
   _file.open(pathName.c_str(), std::ios::out | std::ios::binary);
   if (!_file.is_open()) {
     throw SCBFileException();
@@ -78,7 +81,7 @@ SCBWriter::~SCBWriter() {
 bool SCBWriter::validateVersion(const std::string& version) {
   bool valid = (version == "1.0" ||  // a simple exhaustive list of valid versions
                 version == "2.0" || version == "2.1" || version == "2.2" || version == "2.3" ||
-                version == "2.4");
+                version == "2.4" || version == "3.0"); //Added 3.0
   if (valid) {
     // convert string to ints
     size_t dotPos = version.find_first_of(".");
@@ -98,6 +101,10 @@ bool SCBWriter::validateVersion(const std::string& version) {
       } else if (_version[1] == 4) {
         _frameWriter = new SCBFrameWriter2_4();
       }
+    } else if (_version[0]==3){
+      if (_version[1]==0){
+        _frameWriter = new SCBFrameWriter3_0();
+      }
     }
     assert(_frameWriter != 0x0 && "Valid version didn't produce a frame writer");
   }
@@ -109,13 +116,19 @@ bool SCBWriter::validateVersion(const std::string& version) {
 void SCBWriter::writeFrame(BFSM::FSM* fsm) { _frameWriter->writeFrame(_file, _sim, fsm); }
 
 /////////////////////////////////////////////////////////////////////
-
+//TODO add call to writeHeader 3.0 -- done ln 125-7
+//TODO implement writeHeader and writeFrame3.0
+//TODO add function prototypes to SCBWriter.h
 void SCBWriter::writeHeader() {
-  _file << _version[0] << "." << _version[1] << (char)0x0;
+
   if (_version[0] == 1) {
+    _file << _version[0] << "." << _version[1] << (char)0x0;
     writeHeader1_0();
   } else if (_version[0] == 2) {
+    _file << _version[0] << "." << _version[1] << (char)0x0;
     writeHeader2_0();
+  } else if (_version[0] == 3){
+    writeHeader3_0();
   }
 }
 
@@ -129,16 +142,33 @@ void SCBWriter::writeHeader1_0() {
 /////////////////////////////////////////////////////////////////////
 
 void SCBWriter::writeHeader2_0() {
+  // std::cout << "Begin writing HEADER 2.X\n"; //TODO debug line, remove me!!
   const size_t AGT_COUNT = _sim->getNumAgents();
   _file.write((char*)&AGT_COUNT, sizeof(int));
   float step = _sim->getTimeStep();
   _file.write((char*)&step, sizeof(float));
+  // std::cout << step << " : TimeStep\n"; //TODO debut line, remove me!!
   // write ids
   for (size_t i = 0; i < AGT_COUNT; ++i) {
     Agents::BaseAgent* agt = _sim->getAgent(i);
     unsigned int cID = static_cast<unsigned int>(agt->_class);
+    // std::cout << "  i:" << i << "\n_id:" << agt->_id << "\n\n";
+    // std::cout << cID << " : cID for agent: " << i << " with _id: " << agt->_id << ","; //TODO debug line, remove me!!
     _file.write((char*)&cID, sizeof(unsigned int));
   }
+}
+
+/////////////////////////////////////////////////////////////////////
+
+void SCBWriter::writeHeader3_0(){
+
+  std::string result;
+  const size_t AGT_COUNT = _sim->getNumAgents();
+  for (size_t i = 0; i<AGT_COUNT; ++i){
+    result += std::to_string(i) + "_x," + std::to_string(i) + "_y,";
+  }
+
+  _file << result << "timestep" << std::endl;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -157,9 +187,11 @@ void SCBFrameWriter1_0::writeFrame(std::ofstream& file, SimulatorInterface* sim,
     Agents::BaseAgent* agt = sim->getAgent(i);
     const Math::Vector2& p = agt->_pos;
     file.write((char*)&p, 2 * sizeof(float));
+
     float orient = atan2(agt->_orient.y(), agt->_orient.x());
     file.write((char*)&orient, sizeof(float));
   }
+
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -172,9 +204,11 @@ void SCBFrameWriter2_0::writeFrame(std::ofstream& file, SimulatorInterface* sim,
     Agents::BaseAgent* agt = sim->getAgent(i);
     const Math::Vector2& p = agt->_pos;
     file.write((char*)&p, 2 * sizeof(float));
+    // std::cout << "agent~"<< i <<":"<< p.x() << ":" << p.y() << ","; //TODO debug line, remove me
     float orient = atan2(agt->_orient.y(), agt->_orient.x());
     file.write((char*)&orient, sizeof(float));
   }
+  // std::cout << "\n"; //TODO debug line, remove me
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -252,6 +286,22 @@ void SCBFrameWriter2_4::writeFrame(std::ofstream& file, SimulatorInterface* sim,
 }
 
 /////////////////////////////////////////////////////////////////////
+//                Implementation of csv format SCBFrameWriter3_0
+/////////////////////////////////////////////////////////////////////
+
+void SCBFrameWriter3_0::writeFrame(std::ofstream & file, SimulatorInterface * sim, BFSM::FSM* fsm){
+  const size_t AGT_COUNT = sim->getNumAgents();
+  std::string result;
+  for (size_t i = 0; i < AGT_COUNT; ++i){
+    Agents::BaseAgent * agt = sim->getAgent(i);
+    const Math::Vector2 & p = agt->_pos;
+    result += std::to_string( p.x() ) + "," + std::to_string( p.y() ) + ",";
+    // std::cout << "agent~"<< i <<":"<< p.x() << ":" << p.y() << ","; //TODO debug line, remove me
+  }
+  result += std::to_string( sim->getTimeStep() ) + "\n";
+  file.write(result.c_str(),result.length());
+
+}
 
 }  // namespace Agents
 }  // namespace Menge

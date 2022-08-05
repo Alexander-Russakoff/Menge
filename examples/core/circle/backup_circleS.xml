@@ -20,7 +20,6 @@
         <GCF stand_depth="0.14" move_scale="0.53" slow_width="0.225" sway_change="0.05">
 			<Property name="slow_width" dist="u" min="0.1" max="0.25"/>
 		</GCF>
-		<Mixed orca_agent="1"/>
         <Helbing mass="80" />
         <Johansson fov_weight="0.16" />
         <Karamouzas personal_space="0.69" anticipation="8" />
@@ -29,33 +28,24 @@
         <Zanlungo mass="80" orient_weight="0.75" />
 	</AgentProfile>
 
-	<AgentProfile name="mixed_orca" inherits="group1">
-		<Mixed orca_agent="0"/>
-	</AgentProfile>
-
 	<AgentGroup>
         <ProfileSelector type="const" name="group1" />
 		<StateSelector type="const" name="Walk" />
 		<Generator type="explicit" >
 			<Agent p_x="8.555987" p_y="0.000000" />
 			<Agent p_x="8.539101" p_y="0.537235" />
-			<!--
 			<Agent p_x="8.488525" p_y="1.072349" />
 			<Agent p_x="8.404437" p_y="1.603238" />
 			<Agent p_x="8.287188" p_y="2.127788" />
 			<Agent p_x="8.137225" p_y="2.643950" />
 			<Agent p_x="7.955150" p_y="3.149662" />
-			-->
 			<Agent p_x="7.741687" p_y="3.642962" />
 			<Agent p_x="7.497663" p_y="4.121875" />
-			<!--
 			<Agent p_x="7.224063" p_y="4.584525" />
 			<Agent p_x="6.921937" p_y="5.029088" />
 			<Agent p_x="6.592500" p_y="5.453787" />
 			<Agent p_x="6.237050" p_y="5.856975" />
-			-->
 			<Agent p_x="5.856975" p_y="6.237050" />
-			<!--
 			<Agent p_x="5.453787" p_y="6.592500" />
 			<Agent p_x="5.029088" p_y="6.921937" />
 			<Agent p_x="4.584525" p_y="7.224063" />
@@ -63,9 +53,7 @@
 			<Agent p_x="3.642962" p_y="7.741687" />
 			<Agent p_x="3.149662" p_y="7.955150" />
 			<Agent p_x="2.643950" p_y="8.137225" />
-			-->
 			<Agent p_x="2.127788" p_y="8.287188" />
-			<!--
 			<Agent p_x="1.603238" p_y="8.404437" />
 			<Agent p_x="1.072349" p_y="8.488525" />
 			<Agent p_x="0.537235" p_y="8.539101" />
@@ -76,34 +64,19 @@
 			<Agent p_x="-2.127788" p_y="8.287188" />
 			<Agent p_x="-2.643950" p_y="8.137225" />
 			<Agent p_x="-3.149662" p_y="7.955150" />
-			-->
 			<Agent p_x="-3.642962" p_y="7.741687" />
 			<Agent p_x="-4.121875" p_y="7.497663" />
-			<!--
 			<Agent p_x="-4.584525" p_y="7.224063" />
 			<Agent p_x="-5.029088" p_y="6.921937" />
 			<Agent p_x="-5.453787" p_y="6.592500" />
-			-->
 			<Agent p_x="-5.856975" p_y="6.237050" />
-			<!--
 			<Agent p_x="-6.237050" p_y="5.856975" />
 			<Agent p_x="-6.592500" p_y="5.453787" />
 			<Agent p_x="-6.921937" p_y="5.029088" />
 			<Agent p_x="-7.224063" p_y="4.584525" />
-			-->
 			<Agent p_x="-7.497663" p_y="4.121875" />
-			<!--
 			<Agent p_x="-7.741687" p_y="3.642962" />
 			<Agent p_x="-7.955150" p_y="3.149662" />
-			-->
-
-		</Generator>
-    </AgentGroup>
-	<!--
-	<AgentGroup>
-		<ProfileSelector type="const" name="mixed_orca" />
-		<StateSelector type="const" name="Walk" />
-		<Generator type="explicit">
 			<Agent p_x="-8.137225" p_y="2.643950" />
 			<Agent p_x="-8.287188" p_y="2.127788" />
 			<Agent p_x="-8.404437" p_y="1.603238" />
@@ -160,6 +133,5 @@
 			<Agent p_x="8.488525" p_y="-1.072349" />
 			<Agent p_x="8.539101" p_y="-0.537235" />
 		</Generator>
-	</AgentGroup>
-	-->
+    </AgentGroup>
 </Experiment>

@@ -9,6 +9,7 @@
     <Johansson agent_scale="25" obstacle_scale="35" reaction_time="0.5" force_distance="0.15" stride_time="0.5" />
     <Karamouzas orient_weight="0.8" fov="200" reaction_time="0.4" wall_steepness="2" wall_distance="2" colliding_count="5" d_min="1" d_mid="8" d_max="10" agent_force="4" />
     <Zanlungo agent_scale="2000" obstacle_scale="4000" reaction_time="0.5" force_distance="0.005" />
+    <Mixed orca_agent="0" agent_scale="35" obstacle_scale="35" reaction_time="0.5" force_distance="0.15" stride_time="0.5" />
 	<Dummy stddev="1.0" />
 
 	<AgentProfile name="group1" >
@@ -21,20 +22,24 @@
         <Karamouzas personal_space="0.69" anticipation="8" />
         <ORCA tau="3.0" tauObst="0.15" />
         <Zanlungo mass="80" orient_weight="0.75" />
+        <Mixed orca_agent="0"/>
 	</AgentProfile>
 
 	<AgentProfile name="group2" inherits="group1" >
 		<Common class="2" />
+        <Mixed orca_agent="1"/>
 	</AgentProfile>
 
 	<AgentProfile name="group3" inherits="group1" >
 		<Common class="3" />
+        <Mixed orca_agent="1"/>
 	</AgentProfile>
 
 	<AgentProfile name="group4" inherits="group1" >
 		<Common class="4" r="0.35" >
 			<Property name="pref_speed" dist="c" value="0.75" />
 		</Common>
+
 	</AgentProfile>
 	
     <AgentGroup>
@@ -83,28 +88,28 @@
 	
     <ObstacleSet type="explicit" class="1"> 
           <Obstacle closed="1"  >
-            <Vertex p_x = "1.333" p_y = "1.333"/>
-            <Vertex p_x = "5.333" p_y = "1.333"/>
-            <Vertex p_x = "5.333" p_y = "5.333"/>
-            <Vertex p_x = "1.333" p_y = "5.333"/> 
+            <Vertex p_x = "2" p_y = "1"/>
+            <Vertex p_x = "6" p_y = "1"/>
+            <Vertex p_x = "6" p_y = "5"/>
+            <Vertex p_x = "2" p_y = "5"/>
           </Obstacle>
           <Obstacle closed="1"  >
-            <Vertex p_x = "-5.333" p_y = "1.333"/>
-            <Vertex p_x = "-1.333" p_y = "1.333"/>
-            <Vertex p_x = "-1.333" p_y = "5.333"/>
-            <Vertex p_x = "-5.333" p_y = "5.333"/> 
+            <Vertex p_x = "-6" p_y = "1"/>
+            <Vertex p_x = "-2" p_y = "1"/>
+            <Vertex p_x = "-2" p_y = "5"/>
+            <Vertex p_x = "-6" p_y = "5"/>
           </Obstacle>
           <Obstacle closed="1"  >
-            <Vertex p_x = "-5.333" p_y = "-5.333"/>
-            <Vertex p_x = "-1.333" p_y = "-5.333"/>
-            <Vertex p_x = "-1.333" p_y = "-1.333"/>
-            <Vertex p_x = "-5.333" p_y = "-1.333"/> 
+            <Vertex p_x = "-6" p_y = "-5"/>
+            <Vertex p_x = "-2" p_y = "-5"/>
+            <Vertex p_x = "-2" p_y = "-1"/>
+            <Vertex p_x = "-6" p_y = "-1"/>
           </Obstacle>
           <Obstacle closed="1"  >
-            <Vertex p_x = "1.333" p_y = "-5.333"/>
-            <Vertex p_x = "5.333" p_y = "-5.333"/>
-            <Vertex p_x = "5.333" p_y = "-1.333"/>
-            <Vertex p_x = "1.333" p_y = "-1.333"/> 
+            <Vertex p_x = "2" p_y = "-5"/>
+            <Vertex p_x = "6" p_y = "-5"/>
+            <Vertex p_x = "6" p_y = "-1"/>
+            <Vertex p_x = "2" p_y = "-1"/>
           </Obstacle>
     </ObstacleSet>
 

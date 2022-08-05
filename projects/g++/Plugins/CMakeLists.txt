@@ -29,6 +29,8 @@ if(OPENMP_FOUND)
 endif()
 
 # Model dlls
+# TODO - lets add our sample mixed plugin
+ADD_SUBDIRECTORY(AgtMixed)
 ADD_SUBDIRECTORY(aircraft)
 ADD_SUBDIRECTORY(FundamentalDiagram)
 ADD_SUBDIRECTORY(Terrain)

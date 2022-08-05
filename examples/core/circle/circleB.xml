@@ -11,7 +11,7 @@
 		<VelComponent type="goal" />
 	</State>
 	<Transition from="Walk" to="Stop" >
-		<Condition type="goal_reached" distance="0.1" />
+		<Condition type="goal_reached" distance="0.05" />
 	</Transition>
 		
 </BFSM>
